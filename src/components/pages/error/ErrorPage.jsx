@@ -1,25 +1,12 @@
+import { Link } from "react-router-dom";
 
-import { useNavigate } from 'react-router-dom'; // Ajout de l'import toNavigate
-
-function Error() {
-  // Récupérer le prénom à partir des paramètres d'URL
-  const navigate = useNavigate()
-
-
-  const deconnexion = (event) => {
-    event.preventDefault();
-      navigate(`/`);
-
-  };
+export default function ErrorPage() {
   return (
-    <>
-    <h1>Erreur 404</h1>
-      <button onClick={deconnexion}> Retour à l'accueil</button>
-    </>
-  );
+    <div>
+    <h1>Error Page</h1>
+    <Link to={"/"}>
+        <button>Retourner vers la page d'accueil</button>
+    </Link>
+</div>
+  )
 }
-
-export default Error;
-
-
-

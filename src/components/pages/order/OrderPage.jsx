@@ -1,26 +1,16 @@
-import { useNavigate } from 'react-router-dom'; // Ajout de l'import toNavigate
-import { useParams } from 'react-router-dom';
-
-function Order() {
-  // Récupérer le prénom à partir des paramètres d'URL
-  const { username } = useParams();
-  const navigate = useNavigate()
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
-  const deconnexion = (event) => {
-    event.preventDefault();
-      navigate(`/`);
+export default function OrderPage(props) {
+    const {username} = useParams();
 
-  };
-  return (
-    <>
-      <button onClick={deconnexion}> Déconnexion</button>
-      <h1>Bonjour {username}, Bienvenue sur la page de commande</h1>
-    </>
-  );
+    return (
+        <div>
+            <h1>Bonjour {username}</h1>
+            <Link to={"/"}>
+                <button>Déconnexion</button>
+            </Link>
+        </div>
+    );
 }
-
-export default Order;
-
-
-
