@@ -27,8 +27,8 @@ export default function OrderPage() {
 const Menu = styled.div`
 display: flex;
 flex-wrap: wrap; /* Permet aux éléments de se placer sur plusieurs lignes */
-justify-content: space-between; /* Espacement uniforme entre les cartes */
-height: 80vh;
+justify-content: center;
+min-height: 80vh;
 background-color: white;
 box-shadow: 0px 8px 20px 8px rgba(0, 0, 0, 0.2) inset;
 padding: 50px;
