@@ -1,0 +1,12 @@
+.body-container {
+  width: 90vw;
+  height: 90vh;
+  border-radius: 50px;
+}
+
+body {
+  background-color: #67b6b9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
