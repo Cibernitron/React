@@ -2,10 +2,10 @@ import styled from "styled-components";
 import PrimaryButton from "./PrimaryButton";
 import { theme } from "../../theme";
 
-export default function Card({ name }, { price }) {
+export default function Card({ name }, { price }, { image }) {
   return (
     <CardContainer>
-      <Image />
+      <Image src={image} />
       <Name>{name}</Name>
       <Div>
         <Price>{price}</Price>

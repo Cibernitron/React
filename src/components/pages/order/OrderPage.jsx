@@ -12,7 +12,12 @@ export default function OrderPage() {
       <NavBar username={username}></NavBar>
       <Menu>
         {fakeMenu.map((element) => (
-          <Card key={element.id} price={element.price} name={element.title} />
+          <Card
+            key={element.id}
+            price={element.price}
+            name={element.title}
+            image={element.imageSource}
+          />
         ))}
       </Menu>
     </>
