@@ -10,3 +10,6 @@ body {
   align-items: center;
   justify-content: center;
 }
+:root {
+  --toastify-color-success: #4585fc;
+}
