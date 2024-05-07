@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Card from "./Card";
 import AdminPanel from "./AdminPanel";
 import { fakeMenu } from "../pages/order/Fake";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AdminContext from "../../context/AdminContext";
 import { theme } from "../../theme";
 
@@ -17,6 +17,13 @@ export default function DisplayMenu() {
   const reload = () => {
     window.location.reload();
   };
+
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
+
   return (
     <Menu>
       {reversedList.length === 0 && activeListFake.length === 0 ? (
@@ -36,29 +43,39 @@ export default function DisplayMenu() {
         )
       ) : reversedList.length > 0 ? (
         reversedList.map((element) => (
-          <Card
-            className="card"
+          <CardContainer
+            onClick={() => handleCardClick(element)}
             key={element.id}
-            element={element}
-            price={element.price}
-            name={element.title}
-            image={element.imageSource}
-          />
+          >
+            <Card
+              key={element.id}
+              element={element}
+              price={element.price}
+              name={element.title}
+              image={element.imageSource}
+            />
+          </CardContainer>
         ))
       ) : (
         activeListFake.map((element) => (
-          <Card
-            className="card"
+          <CardContainer
+            onClick={() => handleCardClick(element)}
             key={element.id}
-            element={element}
-            price={element.price}
-            name={element.title}
-            image={element.imageSource}
-          />
+          >
+            <Card
+              key={element.id}
+              element={element}
+              price={element.price}
+              name={element.title}
+              image={element.imageSource}
+            />
+          </CardContainer>
         ))
       )}
 
-      {isAdmin ? <AdminPanel isAdmin={true} /> : null}
+      {isAdmin ? (
+        <AdminPanel isAdmin={true} selectedCard={selectedCard} />
+      ) : null}
     </Menu>
   );
 }
@@ -111,3 +128,4 @@ const PrimaryButton = styled.button`
   border-radius: 5px;
   width: 40%;
 `;
+const CardContainer = styled.div``;

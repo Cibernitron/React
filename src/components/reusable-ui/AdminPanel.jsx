@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { GrDown, GrAdd, GrEdit } from "react-icons/gr";
 import Form from "./Form";
+import ModifyForm from "./ModifyForm";
 import { fakeMenu } from "../pages/order/Fake";
 import AdminContext from "../../context/AdminContext";
 import { FiCheck } from "react-icons/fi";
+import { HiCursorClick } from "react-icons/hi";
 
-const AdminPanel = () => {
+const AdminPanel = (element) => {
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [isAddOrModify, setIsAddOrModify] = useState(true);
   const [selectedTab, setSelectedTab] = useState("addProduct");
@@ -49,12 +51,22 @@ const AdminPanel = () => {
     }, 2000);
   };
 
+  const handleModifyProduct = (updatedProduct) => {
+    const updatedProducts = products.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product
+    );
+    setProducts(updatedProducts);
+    setList(updatedProducts);
+    setIsProductAdded(true);
+    setTimeout(() => {
+      setIsProductAdded(false);
+    }, 2000);
+  };
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
     setIsPanelOpen(true);
     setIsAddOrModify(tab === "addProduct");
   };
-
   return (
     <StyledAdminPanel className={isPanelOpen ? "height250" : "height0"}>
       <Buttons>
@@ -87,10 +99,18 @@ const AdminPanel = () => {
                 <FiCheck className="icon" />
                 <Message>Produit ajouté avec succès !</Message>
               </MessageContainer>
-            )}{" "}
+            )}
           </>
+        ) : element.selectedCard ? (
+          <ModifyForm
+            onAddProduct={handleModifyProduct}
+            selectedCard={element.selectedCard}
+          />
         ) : (
-          "Modifier un article"
+          <ModifyMessage>
+            Cliquer sur un produit pour le modifier
+            <HiCursorClick className="icon" />
+          </ModifyMessage>
         )}
       </DescriptionPanel>
     </StyledAdminPanel>
@@ -117,6 +137,16 @@ const MessageContainer = styled.div`
 `;
 const Message = styled.p`
   color: #59cb59;
+`;
+const ModifyMessage = styled.p`
+  color: black;
+  opacity: 50%;
+  font-size: 20px;
+  font-family: "Pacifico", sans-serif;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 const StyledAdminPanel = styled.div`
   background-color: #ffffff;
