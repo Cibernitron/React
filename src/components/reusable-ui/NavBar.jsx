@@ -1,23 +1,24 @@
+import { useState, useContext } from "react";
 import styled from "styled-components";
-import { useState } from "react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { BsPersonCircle } from "react-icons/bs";
 import { theme } from "../../theme";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import AdminContext from "../../context/AdminContext";
 
 export default function NavBar({ username }) {
-  const [isAdminMode, setIsAdminMode] = useState(false);
+  const { isAdmin, setIsAdmin } = useContext(AdminContext);
+
   const [buttonColor, setButtonColor] = useState(theme.colors.dark);
   const [buttonTextColor, setButtonTextColor] = useState(theme.colors.primary);
   const [buttonBorder, setButtonBorder] = useState(theme.colors.dark);
   const [circlePosition, setCirclePosition] = useState("left");
   const [activeText, setActiveText] = useState("Activer le mode admin");
 
-  const toggleAdminMode = () => {
-    setIsAdminMode(!isAdminMode);
-    if (!isAdminMode) {
+  const handleToggleAdminMode = () => {
+    if (!isAdmin) {
       setButtonColor(theme.colors.white);
       setButtonTextColor(theme.colors.dark);
       setButtonBorder(theme.colors.primary);
@@ -33,13 +34,24 @@ export default function NavBar({ username }) {
         progress: undefined,
         theme: "dark",
       });
+      setIsAdmin(true);
     } else {
-
       setButtonColor(theme.colors.dark);
       setButtonTextColor(theme.colors.primary);
       setButtonBorder(theme.colors.dark);
       setCirclePosition("left");
       setActiveText("Activer le mode admin");
+      toast.success("Mode admin désactivé", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setIsAdmin(false);
     }
   };
 
@@ -50,10 +62,15 @@ export default function NavBar({ username }) {
           <Logo />
         </Link>
         <NavContainer>
-            <AdminButton onClick={toggleAdminMode} border={buttonBorder} color={buttonColor} position={circlePosition}>
-              <Circle />
-              <ButtonText color={buttonTextColor}  isactive={circlePosition === "left" ? "true" : "false"}>{activeText}</ButtonText>
-            </AdminButton>
+          <AdminButton
+            onClick={handleToggleAdminMode}
+            border={buttonBorder}
+            color={buttonColor}
+          >
+            <Circle position={circlePosition} />
+            <ButtonText color={buttonTextColor}>{activeText}</ButtonText>
+            <CircleNone />
+          </AdminButton>
           <UserContainer>
             <HelloContainer>
               <Hello>Salut</Hello>
@@ -69,14 +86,12 @@ export default function NavBar({ username }) {
   );
 }
 
-
 const Nav = styled.nav`
   background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: ${theme.borderRadius.extraRound}
-    ${theme.borderRadius.extraRound} 0 0;
+  border-radius: ${theme.borderRadius.round} ${theme.borderRadius.round} 0 0;
   padding: 0px 24px;
   white-space: nowrap;
   width: 100%;
@@ -129,31 +144,42 @@ const Links = styled.a`
   font-family: "Open Sans", sans-serif;
 `;
 const AdminButton = styled.button`
+  width: 300px;
   font-size: 16px;
   background-color: ${(props) => props.color};
   color: ${(props) => props.color};
   border: none;
   padding: 4px 8px;
   border-radius: 32px;
-  border: 2px solid ${(props) => props.border} ;
+  border: 2px solid ${(props) => props.border};
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: ${(props) => (props.position === "left" ? "flex-start" : "flex-end")};
-  flex-direction: ${(props) => (props.position === "left" ? "row" : "row-reverse")};
-  transition: flex-direction 1s ease; /* Ajout de la transition */
+  transition: background-color 0.5s ease;
 `;
 
 const Circle = styled.div`
   width: 30px;
   height: 30px;
-  background-color:${theme.colors.primary};
+  background-color: ${theme.colors.primary};
   border-radius: 50%;
+  position: relative;
+  ${(props) => (props.position === "left" ? "left: 0" : "left: 250px")};
+  transition: all 0.5s ease;
+  z-index: 100;
 `;
-
+const CircleNone = styled.div`
+  width: 30px;
+  height: 30px;
+  background-color: ${theme.colors.primary};
+  border-radius: 50%;
+  visibility: hidden;
+`;
 
 const ButtonText = styled.span`
-color: ${(props) => props.color};
-margin: 0 8px;
+  transition: opacity 0.1s ease, transform 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  color: ${(props) => props.color};
+  margin: 0 8px;
 `;
-

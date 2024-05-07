@@ -1,7 +1,8 @@
 .body-container {
   width: 90vw;
-  height: 90vh;
-  border-radius: 50px;
+  height: 97vh;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 body {

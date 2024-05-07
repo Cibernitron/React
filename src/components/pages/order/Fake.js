@@ -1,4 +1,5 @@
-export const fakeSmallMenu = [ // pour tests
+export const fakeSmallMenu = [
+  // pour tests
   {
     id: 1,
     imageSource: "/images/cupcake-item.png",
@@ -8,16 +9,7 @@ export const fakeSmallMenu = [ // pour tests
     isAvailable: true,
     isAdvertised: false,
   },
-  {
-    id: 2,
-    imageSource: "/images/cupcake-item.png",
-    title: "SweetZing",
-    price: 7.556,
-    quantity: 0,
-    isAvailable: true,
-    isAdvertised: false,
-  },
-]
+];
 
 export const fakeMenu = [
   {
@@ -110,5 +102,49 @@ export const fakeMenu = [
     isAvailable: true,
     isAdvertised: false,
   },
-
-]
+  {
+    id: 11,
+    imageSource: "/images/cupcake-item.png",
+    title: "ZestyFun",
+    price: 7.156,
+    quantity: 0,
+    isAvailable: true,
+    isAdvertised: false,
+  },
+  {
+    id: 12,
+    imageSource: "/images/cupcake-item.png",
+    title: "BlissZu",
+    price: 7.5,
+    quantity: 0,
+    isAvailable: true,
+    isAdvertised: false,
+  },
+  {
+    id: 13,
+    imageSource: "/images/cupcake-item.png",
+    title: "ZingCup",
+    price: 6.6,
+    quantity: 0,
+    isAvailable: true,
+    isAdvertised: false,
+  },
+  {
+    id: 14,
+    imageSource: "/images/cupcake-item.png",
+    title: "FrostJoy",
+    price: 5.7,
+    quantity: 0,
+    isAvailable: true,
+    isAdvertised: false,
+  },
+  {
+    id: 15,
+    imageSource: "/images/cupcake-item.png",
+    title: "CocoZest",
+    price: 4.7,
+    quantity: 0,
+    isAvailable: true,
+    isAdvertised: false,
+  },
+];

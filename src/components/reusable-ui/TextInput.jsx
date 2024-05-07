@@ -36,8 +36,12 @@ const InputStyled = styled.div`
     display: flex;
     color: ${theme.colors.dark};
     &::placeholder {
+      border: none;
       background-color: ${theme.colors.white};
       color: ${theme.colors.greyMedium};
+    }
+    &:focus {
+      outline: none;
     }
   }
 `;
