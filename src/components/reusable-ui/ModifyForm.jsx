@@ -1,42 +1,57 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { GiCupcake } from "react-icons/gi";
 import { BsFillCameraFill } from "react-icons/bs";
 import { MdOutlineEuro } from "react-icons/md";
-import AdminContext from "../../context/AdminContext";
 import { theme } from "../../theme";
 
-const Form = ({ selectedCard, onAddProduct }) => {
-  console.log(selectedCard.imageSource);
-  const [newProductName, setNewProductName] = useState("");
-  const [newProductPrice, setNewProductPrice] = useState("");
-  const [newProductImage, setNewProductImage] = useState("");
-  const { list } = useContext(AdminContext);
+const Form = ({ selectedCard, onModifyProduct }) => {
+  const [newProductName, setNewProductName] = useState(selectedCard.title);
+  const [newProductPrice, setNewProductPrice] = useState(selectedCard.price);
+  const [newProductImage, setNewProductImage] = useState(
+    selectedCard.imageSource
+  );
+  const [previewImage, setPreviewImage] = useState(selectedCard.imageSource);
 
-  const handleAddProduct = () => {
-    const newProduct = {
-      id: list.length,
-      imageSource: newProductImage || selectedCard.imageSource,
-      title: newProductName || selectedCard.title,
-      price: newProductPrice || selectedCard.price,
-    };
-    onAddProduct(newProduct);
-    // Clear input fields after adding the product
-    setNewProductName("");
-    setNewProductPrice("");
-    setNewProductImage("");
+  useEffect(() => {
+    setNewProductName(selectedCard.title);
+    setNewProductPrice(selectedCard.price);
+    setNewProductImage(selectedCard.imageSource);
+    setPreviewImage(selectedCard.imageSource);
+  }, [selectedCard]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "productName":
+        setNewProductName(value);
+        onModifyProduct({ ...selectedCard, title: value });
+        break;
+      case "productPrice":
+        setNewProductPrice(value);
+        onModifyProduct({ ...selectedCard, price: value });
+        break;
+      case "productImage":
+        setNewProductImage(value);
+        setPreviewImage(value);
+        onModifyProduct({ ...selectedCard, imageSource: value });
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <FormContainer>
-      <Image src={selectedCard.imageSource}></Image>
+      <Image src={previewImage}></Image>
       <Product>
         <DivInput>
           <GiCupcake className="icon" />
           <input
             type="text"
+            name="productName"
             value={newProductName}
-            onChange={(e) => setNewProductName(e.target.value)}
+            onChange={handleInputChange}
             placeholder={selectedCard.title}
           />
         </DivInput>
@@ -44,8 +59,9 @@ const Form = ({ selectedCard, onAddProduct }) => {
           <BsFillCameraFill className="icon" />
           <input
             type="text"
+            name="productPrice"
             value={newProductPrice}
-            onChange={(e) => setNewProductPrice(e.target.value)}
+            onChange={handleInputChange}
             placeholder={selectedCard.price}
           />
         </DivInput>
@@ -53,12 +69,13 @@ const Form = ({ selectedCard, onAddProduct }) => {
           <MdOutlineEuro className="icon" />
           <input
             type="text"
+            name="productImage"
             value={newProductImage}
-            onChange={(e) => setNewProductImage(e.target.value)}
+            onChange={handleInputChange}
             placeholder={selectedCard.imageSource}
           />
         </DivInput>
-        <p>Cliquer sur un produit pour le modifier en temps réel</p>
+        <p>Cliquez sur un produit pour le modifier en temps réel</p>
       </Product>
     </FormContainer>
   );
@@ -78,8 +95,8 @@ const Product = styled.div`
   }
 `;
 const Image = styled.img`
-  width: 25%;
-  height: 25%;
+  width: 22%;
+  height: 22%;
 `;
 const DivInput = styled.div`
   display: flex;

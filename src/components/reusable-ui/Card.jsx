@@ -6,26 +6,46 @@ import { TiDelete } from "react-icons/ti";
 import { useContext, useState } from "react";
 import AdminContext from "../../context/AdminContext";
 
-export default function Card({ element, name, price, image }) {
+export default function Card({ element, name, price, image, selected }) {
   const formattedPrice = formatPrice(price);
   const { isAdmin, deleteList, setDeleteList } = useContext(AdminContext);
+  const [hovered, setHovered] = useState(false);
   const handleDelete = () => {
     setDeleteList([...deleteList, element]);
   };
+  const makeHovered = () => {
+    setHovered(true);
+  };
+  const disableHovered = () => {
+    setHovered(false);
+  };
 
   return (
-    <CardContainer>
+    <CardContainer onMouseEnter={makeHovered} onMouseLeave={disableHovered}>
       {isAdmin ? (
         <TiDelete
-          className={`icon ${isAdmin ? "color" : ""}`}
+          className={`icon ${isAdmin ? "color" : ""} ${
+            isAdmin & selected ? "selected" : ""
+          }`}
           onClick={handleDelete}
         />
       ) : null}
       <Image src={image} />
       <Name>{name}</Name>
       <Div>
-        <Price className={isAdmin ? "price" : ""}>{formattedPrice}</Price>
-        <AddButton className="button" label="Ajouter" />
+        <Price
+          className={`${isAdmin ? "price" : ""} ${
+            isAdmin & selected ? "selected" : ""
+          }`}
+        >
+          {formattedPrice}
+        </Price>
+        <AddButton
+          className="button"
+          label="Ajouter"
+          selected={selected}
+          hovered={hovered}
+        />
       </Div>
     </CardContainer>
   );
@@ -41,9 +61,8 @@ const CardContainer = styled.div`
   border-radius: 16px;
   max-height: 280px;
   position: relative;
-  background-color: white;
+
   &:hover {
-    background-color: ${theme.colors.primary};
     .price {
       color: white;
     }
@@ -55,14 +74,15 @@ const CardContainer = styled.div`
       color: white;
     }
   }
-
+  .selected {
+    color: white !important;
+  }
   .icon {
     position: absolute;
     top: 5px;
     right: 5px;
     width: 30px;
     height: 30px;
-    color: ${theme.colors.primary};
   }
 `;
 const Image = styled.img`
@@ -84,8 +104,19 @@ const Div = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  .selectedButton {
+    color: #63a5aa;
+    background-color: white;
+    border: white 1px solid;
+  }
+  .hoveredButton {
+    color: #63a5aa;
+    background-color: white;
+    border: white 1px solid;
+  }
 `;
 
 const Price = styled.p`
   color: ${theme.colors.primary};
+  background-color: transparent !important;
 `;

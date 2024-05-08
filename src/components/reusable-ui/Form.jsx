@@ -12,13 +12,12 @@ const Form = ({ onAddProduct }) => {
   const { list } = useContext(AdminContext);
   const handleAddProduct = () => {
     const newProduct = {
-      id: list.length,
+      id: list.length + 1,
       imageSource: newProductImage || "../images/cupcake-item.png",
       title: newProductName || "New Product",
       price: newProductPrice || "0.00",
     };
     onAddProduct(newProduct);
-    // Clear input fields after adding the product
     setNewProductName("New Product");
     setNewProductPrice("0.00");
     setNewProductImage("../images/cupcake-item.png");

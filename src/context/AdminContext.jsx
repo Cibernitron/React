@@ -8,5 +8,4 @@ const AdminContext = createContext({
   deleteList: [],
   setdeleteList: () => {},
 });
-
 export default AdminContext;

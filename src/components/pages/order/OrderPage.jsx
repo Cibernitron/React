@@ -6,8 +6,7 @@ import { useContext } from "react";
 import AdminContext from "../../../context/AdminContext";
 
 export default function OrderPage() {
-  const { isAdmin, toggleAdminMode } = useContext(AdminContext); // Utilisez la déstructuration pour obtenir les valeurs isAdmin et toggleAdminMode
-
+  const { isAdmin, toggleAdminMode } = useContext(AdminContext);
   const { username } = useParams();
 
   return (

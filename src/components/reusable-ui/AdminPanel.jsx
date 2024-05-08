@@ -3,37 +3,34 @@ import styled from "styled-components";
 import { GrDown, GrAdd, GrEdit } from "react-icons/gr";
 import Form from "./Form";
 import ModifyForm from "./ModifyForm";
-import { fakeMenu } from "../pages/order/Fake";
 import AdminContext from "../../context/AdminContext";
 import { FiCheck } from "react-icons/fi";
 import { HiCursorClick } from "react-icons/hi";
 
-const AdminPanel = (element) => {
+const AdminPanel = (element, handleCardClick) => {
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [isAddOrModify, setIsAddOrModify] = useState(true);
   const [selectedTab, setSelectedTab] = useState("addProduct");
-  const [products, setProducts] = useState(fakeMenu);
-  const [isProductAdded, setIsProductAdded] = useState(false); // Nouvel état pour suivre si le produit est ajouté avec succès
+  const [isProductAdded, setIsProductAdded] = useState(false);
   const { list, setList } = useContext(AdminContext);
-
   useEffect(() => {
     localStorage.setItem(
       "adminPanelState",
       JSON.stringify({ isPanelOpen, selectedTab })
     );
-    localStorage.setItem("products", JSON.stringify(products));
-  }, [isPanelOpen, selectedTab, products]);
+    localStorage.setItem("list", JSON.stringify(list));
+  }, [isPanelOpen, selectedTab, list]);
 
   useEffect(() => {
     const savedState = localStorage.getItem("adminPanelState");
-    const savedProducts = localStorage.getItem("products");
+    const savedlist = localStorage.getItem("list");
     if (savedState) {
       const { isPanelOpen, selectedTab } = JSON.parse(savedState);
       setIsPanelOpen(isPanelOpen);
       setSelectedTab(selectedTab);
     }
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
+    if (savedlist) {
+      setList(JSON.parse(savedlist));
     }
   }, []);
 
@@ -42,8 +39,7 @@ const AdminPanel = (element) => {
   };
 
   const handleAddProduct = (newProduct) => {
-    const newProductUpdate = [...products, newProduct];
-    setProducts(newProductUpdate);
+    const newProductUpdate = [...list, newProduct];
     setList(newProductUpdate);
     setIsProductAdded(true);
     setTimeout(() => {
@@ -52,20 +48,31 @@ const AdminPanel = (element) => {
   };
 
   const handleModifyProduct = (updatedProduct) => {
-    const updatedProducts = products.map((product) =>
+    const updatedlist = list.map((product) =>
       product.id === updatedProduct.id ? updatedProduct : product
     );
-    setProducts(updatedProducts);
-    setList(updatedProducts);
+    setList(updatedlist);
+    setList(updatedlist);
     setIsProductAdded(true);
     setTimeout(() => {
       setIsProductAdded(false);
     }, 2000);
   };
+  useEffect(() => {
+    if (element.panel) {
+      handleCardClickIntern();
+    }
+  }, [element.panel, handleCardClick]);
+
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
     setIsPanelOpen(true);
     setIsAddOrModify(tab === "addProduct");
+  };
+  const handleCardClickIntern = () => {
+    setSelectedTab("editProduct");
+    setIsAddOrModify(false);
+    setIsPanelOpen(true);
   };
   return (
     <StyledAdminPanel className={isPanelOpen ? "height250" : "height0"}>
@@ -103,7 +110,7 @@ const AdminPanel = (element) => {
           </>
         ) : element.selectedCard ? (
           <ModifyForm
-            onAddProduct={handleModifyProduct}
+            onModifyProduct={handleModifyProduct}
             selectedCard={element.selectedCard}
           />
         ) : (

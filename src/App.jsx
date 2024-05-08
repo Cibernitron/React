@@ -5,9 +5,11 @@ import LoginPage from "./components/pages/login/LoginPage";
 import OrderPage from "./components/pages/order/OrderPage";
 import { useState } from "react";
 import AdminContext from "./context/AdminContext";
+import { fakeMenu } from "./components/pages/order/Fake";
+
 function App() {
   const [isAdmin, setIsAdmin] = useState();
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(fakeMenu);
   const [deleteList, setDeleteList] = useState([]);
 
   const adminContextValue = {

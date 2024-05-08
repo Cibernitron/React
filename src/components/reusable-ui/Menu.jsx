@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Card from "./Card";
 import AdminPanel from "./AdminPanel";
-import { fakeMenu } from "../pages/order/Fake";
 import { useContext, useState } from "react";
 import AdminContext from "../../context/AdminContext";
 import { theme } from "../../theme";
@@ -9,24 +8,21 @@ import { theme } from "../../theme";
 export default function DisplayMenu() {
   const { isAdmin, list, deleteList } = useContext(AdminContext);
   const activeList = list.filter((element) => !deleteList.includes(element));
-  const activeListFake = fakeMenu.filter(
-    (element) => !deleteList.includes(element)
-  );
   const reversedList = activeList.slice().reverse();
-
   const reload = () => {
     window.location.reload();
   };
 
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState();
+  const [panel, setPanel] = useState(false);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    setPanel(true);
   };
-
   return (
     <Menu>
-      {reversedList.length === 0 && activeListFake.length === 0 ? (
+      {reversedList.length === 0 ? (
         isAdmin ? (
           <EmptyMessage>
             <p> Il n'y a plus de produits disponibles ?</p>
@@ -41,11 +37,18 @@ export default function DisplayMenu() {
             <p>De nouvelles recettes sont en préparation, revenez vite !</p>
           </EmptyMessage>
         )
-      ) : reversedList.length > 0 ? (
+      ) : (
         reversedList.map((element) => (
           <CardContainer
             onClick={() => handleCardClick(element)}
             key={element.id}
+            className={
+              isAdmin
+                ? selectedCard && selectedCard.id === element.id
+                  ? "backgroundSelected"
+                  : "backgroundNotSelected"
+                : ""
+            }
           >
             <Card
               key={element.id}
@@ -53,28 +56,19 @@ export default function DisplayMenu() {
               price={element.price}
               name={element.title}
               image={element.imageSource}
-            />
-          </CardContainer>
-        ))
-      ) : (
-        activeListFake.map((element) => (
-          <CardContainer
-            onClick={() => handleCardClick(element)}
-            key={element.id}
-          >
-            <Card
-              key={element.id}
-              element={element}
-              price={element.price}
-              name={element.title}
-              image={element.imageSource}
+              selected={selectedCard && element.id === selectedCard.id}
             />
           </CardContainer>
         ))
       )}
 
       {isAdmin ? (
-        <AdminPanel isAdmin={true} selectedCard={selectedCard} />
+        <AdminPanel
+          isAdmin={true}
+          selectedCard={selectedCard}
+          panel={panel}
+          handleCardClick={handleCardClick}
+        />
       ) : null}
     </Menu>
   );
@@ -101,9 +95,12 @@ const Menu = styled.div`
   .height0 {
     height: 0px;
   }
-
-  .card {
-    &hover {
+  .backgroundSelected {
+    background-color: ${theme.colors.primary};
+  }
+  .backgroundNotSelected {
+    background-color: white;
+    &:hover {
       background-color: ${theme.colors.primary};
     }
   }
@@ -128,4 +125,6 @@ const PrimaryButton = styled.button`
   border-radius: 5px;
   width: 40%;
 `;
-const CardContainer = styled.div``;
+const CardContainer = styled.div`
+  border-radius: 16px;
+`;

@@ -1,8 +1,16 @@
 import styled from "styled-components";
+import AdminContext from "../../context/AdminContext";
+import { useContext } from "react";
 
-export default function AddButton({ label }, { Icon }) {
+export default function AddButton({ label, selected, hovered }, { Icon }) {
+  const { isAdmin } = useContext(AdminContext);
+
   return (
-    <AddButtonStyled className="buttonContainer">
+    <AddButtonStyled
+      className={`buttonContainer ${
+        isAdmin & selected ? "selectedButton" : ""
+      }${isAdmin & hovered ? "hoveredButton" : ""}`}
+    >
       <span>{label}</span>
       {Icon && Icon}
     </AddButtonStyled>
