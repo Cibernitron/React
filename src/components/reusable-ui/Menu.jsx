@@ -76,6 +76,7 @@ export default function DisplayMenu() {
 
 const Menu = styled.div`
   height: 100%;
+  width: 85%;
   overflow-y: auto;
   display: flex;
   position: relative;
@@ -85,8 +86,7 @@ const Menu = styled.div`
   background-color: white;
   padding: 50px 0;
   gap: 60px;
-  box-shadow: inset -10px 10px 30px 0px rgba(73, 73, 73, 0.5),
-    inset 10px 00px 30px 0px rgba(73, 73, 73, 0.5);
+  box-shadow: inset -10px 10px 30px 0px rgba(73, 73, 73, 0.5);
 
   scrollbar-width: none;
   .height250 {

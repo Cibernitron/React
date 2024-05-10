@@ -159,8 +159,7 @@ const StyledAdminPanel = styled.div`
   background-color: #ffffff;
   z-index: 100;
   width: 100%;
-  bottom: 65px;
-  margin-bottom: 65px;
+  bottom: -25px;
   position: sticky;
   display: flex;
   box-shadow: inset 10px -20px 30px 0px rgba(73, 73, 73, 0.5),

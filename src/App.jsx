@@ -11,6 +11,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState();
   const [list, setList] = useState(fakeMenu);
   const [deleteList, setDeleteList] = useState([]);
+  const [cartList, setCartList] = useState([]);
 
   const adminContextValue = {
     isAdmin,
@@ -19,6 +20,8 @@ function App() {
     setList,
     deleteList,
     setDeleteList,
+    cartList,
+    setCartList,
   };
 
   return (

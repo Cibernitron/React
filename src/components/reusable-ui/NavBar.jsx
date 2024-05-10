@@ -95,6 +95,7 @@ const Nav = styled.nav`
   padding: 0px 24px;
   white-space: nowrap;
   width: 100%;
+  height: 10%;
 
   .icon {
     width: 40px;

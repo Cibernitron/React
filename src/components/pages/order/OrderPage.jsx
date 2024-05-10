@@ -31,5 +31,5 @@ const Page = styled.div`
 const SellContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 90%;
 `;

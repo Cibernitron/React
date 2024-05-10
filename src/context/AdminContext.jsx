@@ -7,5 +7,7 @@ const AdminContext = createContext({
   setList: () => {},
   deleteList: [],
   setdeleteList: () => {},
+  cartList: [],
+  setCartList: () => {},
 });
 export default AdminContext;

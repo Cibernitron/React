@@ -2,11 +2,27 @@ import styled from "styled-components";
 import AdminContext from "../../context/AdminContext";
 import { useContext } from "react";
 
-export default function AddButton({ label, selected, hovered }, { Icon }) {
-  const { isAdmin } = useContext(AdminContext);
+export default function AddButton(
+  { article, label, selected, hovered },
+  { Icon }
+) {
+  const { isAdmin, setCartList, cartList } = useContext(AdminContext);
+  const addToCartList = () => {
+    let existingItem = cartList.find((item) => item.id === article.id);
+
+    if (existingItem) {
+      const updatedCartList = cartList.map((item) =>
+        item.id === article.id ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setCartList(updatedCartList);
+    } else {
+      setCartList([...cartList, { ...article, quantity: 1 }]);
+    }
+  };
 
   return (
     <AddButtonStyled
+      onClick={addToCartList}
       className={`buttonContainer ${
         isAdmin & selected ? "selectedButton" : ""
       }${isAdmin & hovered ? "hoveredButton" : ""}`}

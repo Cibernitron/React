@@ -8,7 +8,8 @@ import AdminContext from "../../context/AdminContext";
 
 export default function Card({ element, name, price, image, selected }) {
   const formattedPrice = formatPrice(price);
-  const { isAdmin, deleteList, setDeleteList } = useContext(AdminContext);
+  const { isAdmin, deleteList, setDeleteList, cartList, setCartList } =
+    useContext(AdminContext);
   const [hovered, setHovered] = useState(false);
   const handleDelete = () => {
     setDeleteList([...deleteList, element]);
@@ -18,6 +19,10 @@ export default function Card({ element, name, price, image, selected }) {
   };
   const disableHovered = () => {
     setHovered(false);
+  };
+  const addToCartList = () => {
+    setCartList(element);
+    console.log("test");
   };
 
   return (
@@ -41,8 +46,10 @@ export default function Card({ element, name, price, image, selected }) {
           {formattedPrice}
         </Price>
         <AddButton
+          onClick={addToCartList}
           className="button"
           label="Ajouter"
+          article={element}
           selected={selected}
           hovered={hovered}
         />
