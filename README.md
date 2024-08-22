@@ -26,22 +26,22 @@ This project aimed to :
 To clone and run this project locally, follow these steps:
 
 1. Clone the :
-    ``bash
+    ```bash
     git clone https://github.com/your-username/react-project.git
-    ``
+    ```
 
 2. Go to the project directory:
-    ``bash
+    ```bash
     cd react-project
     ```
 
 3. Install the dependencies:
-    ``bash
+    ```bash
     npm install
     ```
 
 4. Start the development server:
-    ``bash
+    ```bash
     npm run dev
     ```
 
