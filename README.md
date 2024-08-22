@@ -28,7 +28,7 @@ To clone and run this project locally, follow these steps:
 1. Clone the :
     ``bash
     git clone https://github.com/your-username/react-project.git
-    ```
+    ``
 
 2. Go to the project directory:
     ``bash
